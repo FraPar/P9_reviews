@@ -16,12 +16,17 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
+# from django.urls import path
 from reviews import views
+
+import authentication.views
 
 urlpatterns = [
     url(r'^$', views.index),
     url(r'^reviews/', include(("reviews.urls", 'reviews'), "reviews")),
-    url(r'^admin/', admin.site.urls)
+    url(r'^login/', authentication.views.login_page, name='login'),
+    url(r'^logout/', authentication.views.logout_user, name='logout'),
+    url(r'^admin/', admin.site.urls),
 ]
 
 if settings.DEBUG:

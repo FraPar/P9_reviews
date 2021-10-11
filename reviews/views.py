@@ -1,3 +1,5 @@
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
 # from .models import ALBUMS # commentez cette ligne
@@ -6,16 +8,23 @@ from django.http import HttpResponse
 
 from django.template import loader
 
+@login_required
+def home(request):
+    return render(request, 'reviews/home.html')
+
+@login_required
 def index(request):
     template = loader.get_template('reviews/index.html')
     return HttpResponse(template.render(request=request))
 
+@login_required
 def listing(request):
     '''     albums = ["<li>{}</li>".format(album['name']) for album in ALBUMS]
         message = """<ul>{}</ul>""".format("\n".join(albums)) '''
     message = "listing"
     return HttpResponse(message)
 
+@login_required
 def detail(request, album_id):
     ''' id = int(album_id) # make sure we have an integer.
     album = ALBUMS[id] # get the album with its id.
@@ -24,6 +33,7 @@ def detail(request, album_id):
     message = "detail"
     return HttpResponse(message)
 
+@login_required
 def search(request):
     ''' query = request.GET.get('query')
     if not query:
