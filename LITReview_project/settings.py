@@ -134,6 +134,10 @@ MEDIA_URL = '/images/'
 
 LOGIN_URL = 'login'
 
+LOGIN_REDIRECT_URL = '/'
+
+LOGOUT_REDIRECT_URL = LOGIN_URL
+
 STATICFILES_DIR =[
 os.path.join(BASE_DIR, 'static')
 ]

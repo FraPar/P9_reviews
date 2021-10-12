@@ -16,17 +16,22 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
-# from django.urls import path
+from django.contrib.auth.views import LoginView, LogoutView
+from django.urls import path
 from reviews import views
 
-import authentication.views
+import reviews.views
 
 urlpatterns = [
     url(r'^$', views.index),
     url(r'^reviews/', include(("reviews.urls", 'reviews'), "reviews")),
-    url(r'^login/', authentication.views.login_page, name='login'),
-    url(r'^logout/', authentication.views.logout_user, name='logout'),
+    url(r'^login/', LoginView.as_view(
+        template_name='authentication/login.html',
+        redirect_authenticated_user=True),
+         name='login'),
+    url(r'^logout/', LogoutView.as_view(), name='logout'),
     url(r'^admin/', admin.site.urls),
+    url(r'^home/', reviews.views.home, name='home'),
 ]
 
 if settings.DEBUG:
