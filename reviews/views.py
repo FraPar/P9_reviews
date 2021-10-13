@@ -1,14 +1,28 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.shortcuts import redirect
 
 # from .models import ALBUMS # commentez cette ligne
 
 # Create your views here.
 
+from . import forms, models
+
 from django.template import loader
 
-# @login_required
+@login_required
+def photo_upload(request):
+    form = forms.PhotoForm()
+    if request.method == 'POST':
+        form = forms.PhotoForm(request.POST, request.FILES)
+        photo = form.save(commit=False)
+        photo.uploader = request.user
+        photo.save()
+        return redirect('home')
+    return render(request, 'reviews/photo_upload.html', context={'form': form})
+
+@login_required
 def home(request):
     return render(request, 'reviews/home.html')
 

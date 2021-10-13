@@ -21,6 +21,7 @@ from django.urls import path
 from reviews import views
 
 import reviews.views
+import authentication.views
 
 urlpatterns = [
     url(r'^$', views.index),
@@ -32,6 +33,8 @@ urlpatterns = [
     url(r'^logout/', LogoutView.as_view(), name='logout'),
     url(r'^admin/', admin.site.urls),
     url(r'^home/', reviews.views.home, name='home'),
+    url(r'^signup/$', authentication.views.signup_page, name='signup'),
+    url(r'^photo/upload$', reviews.views.photo_upload, name='photo_upload')
 ]
 
 if settings.DEBUG:

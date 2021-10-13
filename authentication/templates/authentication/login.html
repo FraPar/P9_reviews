@@ -1,8 +1,22 @@
+{% extends 'header_footer.html' %}
+{% load static %}
 {% block content %}
-    <p>{{ message }}</p>
-    <form method="post">
-        {{ form.as_p }}
-        {% csrf_token %}
-        <button type="submit" >Se connecter</button>
-    </form>
+    <div class="row pb-4">
+        <div class="col-12 col-lg-6 text-center">
+          <div class="card shadow">
+            <p>{{ message }}</p>
+            <form method="post">
+                {{ form.as_p }}
+                {% csrf_token %}
+                <button type="submit" >Se connecter</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-6 text-center">
+            <div class="card shadow">
+                <p>Pas encore membre ? <a href="{% url 'signup' %}">Inscrivez-vous maintenant !</a></p>
+            </div>
+        </div>
+    </div>
 {% endblock content %}
