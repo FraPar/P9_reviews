@@ -1,4 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
-    <p>Vous êtes connecté !</p>
-{% endblock content %}
+    <h2>Tickets</h2>
+    <div class="grid-container">
+    {% for ticket in tickets %}
+        <div class="post">
+            <a href="{% url 'view_ticket' ticket.id %}">
+                <p>{{ ticket.id }}</p>
+                <h3>Ticket : {{ ticket.title }}</h3>
+                <img src="{{ ticket.image.url }}">
+                <p>{{ ticket.description }}</p>
+            </a>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}

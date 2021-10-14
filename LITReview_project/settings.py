@@ -132,6 +132,8 @@ STATIC_URL = '/static/'
 
 MEDIA_URL = '/images/'
 
+MEDIA_ROOT = 'images/'
+
 LOGIN_URL = 'login'
 
 LOGIN_REDIRECT_URL = 'home'

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect
@@ -12,19 +12,30 @@ from . import forms, models
 from django.template import loader
 
 @login_required
-def photo_upload(request):
-    form = forms.PhotoForm()
+def review_and_photo_upload(request):
+    review_form = forms.ReviewForm()
     if request.method == 'POST':
-        form = forms.PhotoForm(request.POST, request.FILES)
-        photo = form.save(commit=False)
-        photo.uploader = request.user
-        photo.save()
-        return redirect('home')
-    return render(request, 'reviews/photo_upload.html', context={'form': form})
+        review_form = forms.ReviewForm(request.POST, request.FILES)
+        if any([review_form.is_valid()]):
+            review = review_form.save(commit=False)
+            review.user = request.user
+            review.save()
+            return redirect('home')
+
+    context = {
+        'review_form': review_form,
+    }
+    return render(request, 'reviews/create_reviews_ticket.html', context=context)
 
 @login_required
 def home(request):
-    return render(request, 'reviews/home.html')
+    tickets = models.Ticket.objects.all()
+    return render(request, 'reviews/home.html', context={'tickets': tickets})
+
+@login_required
+def view_ticket(request, ticket_id):
+    ticket = get_object_or_404(models.Ticket, id=ticket_id)
+    return render(request, 'reviews/view_ticket.html', {'ticket': ticket})
 
 @login_required
 def index(request):

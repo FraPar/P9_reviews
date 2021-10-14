@@ -1,0 +1,7 @@
+{% extends 'header_footer.html' %}
+{% block content %}
+    <p>{{ ticket.id }}</p>
+    <h3>{{ ticket.title }}</h3>
+    <img src="{{ ticket.image.url }}">
+    <p>{{ ticket.description }}</p>
+{% endblock content %}

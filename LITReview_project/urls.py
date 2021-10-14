@@ -18,6 +18,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
+from django.conf.urls.static import static
 from reviews import views
 
 import reviews.views
@@ -34,11 +35,13 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^home/', reviews.views.home, name='home'),
     url(r'^signup/$', authentication.views.signup_page, name='signup'),
-    url(r'^photo/upload$', reviews.views.photo_upload, name='photo_upload')
+    url(r'^reviews/ticket_create$', reviews.views.review_and_photo_upload, name='ticket_create'),
+    path('reviews/<int:ticket_id>', reviews.views.view_ticket, name='view_ticket'),
 ]
 
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns = [
         url(r'^__debug__/', include(debug_toolbar.urls)),
-    ] + urlpatterns
+    ] + urlpatterns + static(
+        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -44,6 +44,9 @@
                   <a class="nav-link" href="">Abonnements</a>
                 </li>
                 <li class="nav-item">
+                  <a class="nav-link" href="/reviews/ticket_create">Ecrire un ticket</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}">Se déconnecter</a>
                 </li>
               </ul>
@@ -62,9 +65,7 @@
         </div>
       </div>
 
-      {%  if not user.is_authenticated %}
       {% block content %}{% endblock content %}
-      {% endif %}
       {%  if user.is_authenticated %}
         <p>Vous êtes connecté en tant que {{ request.user }}.</p>
       {% endif %}
