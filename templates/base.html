@@ -25,7 +25,7 @@
       <div class="container">
         <div class="row">
           <nav class="col navbar navbar-expand-lg navbar-dark">
-            <a class="navbar-brand" href="">
+            <a class="navbar-brand" href="/home">
               <img src="{% static 'reviews/images/logo_litreviews.PNG' %}" width="50" height="50" alt="Info Logo" />
               LITReview
             </a>
@@ -42,9 +42,6 @@
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="">Abonnements</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/reviews/ticket_create">Ecrire un ticket</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}">Se déconnecter</a>
@@ -69,7 +66,7 @@
       {%  if user.is_authenticated %}
         <p>Vous êtes connecté en tant que {{ request.user }}.</p>
       {% endif %}
-      
+
       <div class="row">
         <div class="col"> 
           <div id="carouselControls" class="carousel slide mt-4 mb-4" data-ride="carousel">

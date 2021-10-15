@@ -25,7 +25,7 @@
       <div class="container">
         <div class="row">
           <nav class="col navbar navbar-expand-lg navbar-dark">
-            <a class="navbar-brand" href="">
+            <a class="navbar-brand" href="/home">
               <img src="{% static 'reviews/images/logo_litreviews.PNG' %}" width="50" height="50" alt="Info Logo" />
               LITReview
             </a>
@@ -42,9 +42,6 @@
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="">Abonnements</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/reviews/ticket_create">Ecrire un ticket</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}">Se déconnecter</a>
@@ -70,13 +67,11 @@
         <p>Vous êtes connecté en tant que {{ request.user }}. <a href="{% url 'logout' %}">Se déconnecter</a></p>
       {% endif %}
 
-
-
       <div class="bg-dark">
         <div class="container">
           <div class="row">
             <div class="col">
-              <ul class="list-inline text-center">
+              <ul class="list-inline text-center mt-4">
                 <li class="list-inline-item"><a href="#">À propos</a></li>
                 <li class="list-inline-item">&middot;</li>
                 <li class="list-inline-item"><a href="#">Vie privée</a></li>

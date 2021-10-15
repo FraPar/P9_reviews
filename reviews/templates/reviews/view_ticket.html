@@ -1,7 +1,12 @@
 {% extends 'header_footer.html' %}
 {% block content %}
-    <p>{{ ticket.id }}</p>
-    <h3>{{ ticket.title }}</h3>
-    <img src="{{ ticket.image.url }}">
-    <p>{{ ticket.description }}</p>
+<div class="row ">
+    <div class="col-md-11 text-center img-thumbnail mx-auto mb-4">
+        <p>{{ ticket.id }}</p>
+        <h3>{{ ticket.title }}  by {{ ticket.user }}</h3>
+        <img src="{{ ticket.image.url }}" class="img-fluid ">
+        <p>{{ ticket.description }}</p>
+        <p></p>
+    </div>
+</div>
 {% endblock content %}

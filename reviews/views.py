@@ -12,17 +12,39 @@ from . import forms, models
 from django.template import loader
 
 @login_required
-def review_and_photo_upload(request):
-    review_form = forms.ReviewForm()
+def ticket_upload(request):
+    ticket_form = forms.TicketForm()
     if request.method == 'POST':
-        review_form = forms.ReviewForm(request.POST, request.FILES)
-        if any([review_form.is_valid()]):
-            review = review_form.save(commit=False)
-            review.user = request.user
-            review.save()
+        ticket_form = forms.TicketForm(request.POST, request.FILES)
+        if any([ticket_form.is_valid()]):
+            ticket = ticket_form.save(commit=False)
+            ticket.user = request.user
+            ticket.save()
             return redirect('home')
 
     context = {
+        'ticket_form': ticket_form,
+    }
+    return render(request, 'reviews/create_ticket.html', context=context)
+
+@login_required
+def review_and_ticket_upload(request):
+    review_form = forms.ReviewForm()
+    ticket_form = forms.TicketForm()
+    if request.method == 'POST':
+        review_form = forms.ReviewForm(request.POST)
+        ticket_form = forms.TicketForm(request.POST, request.FILES)
+        if all([review_form.is_valid(), ticket_form.is_valid()]):
+            ticket = ticket_form.save(commit=False)
+            ticket.user = request.user
+            ticket.save()
+            review = review_form.save(commit=False)
+            review.user = request.user
+            review.ticket = ticket
+            review.save()
+            return redirect('home')
+    context = {
+        'ticket_form': ticket_form,
         'review_form': review_form,
     }
     return render(request, 'reviews/create_reviews_ticket.html', context=context)

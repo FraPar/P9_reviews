@@ -1,13 +1,27 @@
 {% extends 'base.html' %}
 {% block content %}
+
+    <div class="row text-center">
+        <div class="col">  
+            <a class="nav-link" href="/reviews/ticket_create">
+                <button type="button" class="btn btn-block btn-lg btn-outline-warning mb-2">Demander une critique</button>
+            </a>
+        </div>
+        <div class="col">
+            <a class="nav-link" href="/reviews/ticket_and_review_create">
+                <button type="button" class="btn btn-block btn-lg btn-outline-success mb-2">Créer une critique</button>
+            </a>
+        </div>
+    </div>
+
     <h2>Tickets</h2>
     <div class="grid-container">
     {% for ticket in tickets %}
-        <div class="post">
+        <div class="post col-md-11 text-center img-thumbnail mx-auto mb-4">
             <a href="{% url 'view_ticket' ticket.id %}">
                 <p>{{ ticket.id }}</p>
                 <h3>Ticket : {{ ticket.title }}</h3>
-                <img src="{{ ticket.image.url }}">
+                <img src="{{ ticket.image.url }}" class="img-fluid">
                 <p>{{ ticket.description }}</p>
             </a>
         </div>
