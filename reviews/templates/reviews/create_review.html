@@ -1,14 +1,17 @@
 {% extends 'header_footer.html' %}
 {% block content %}
+
 <div class="row ">
     <div class="col-md-11 text-center img-thumbnail mx-auto mb-4">
         <p>{{ ticket.id }}</p>
         <h3>{{ ticket.title }} by {{ ticket.user }}</h3>
         <p><a href="{% url 'edit_ticket' ticket.id %}">Modifier le billet</a></p>
-        <p><a href="{% url 'review_create' ticket.id %}">Créer une critique</a></p>
         <img src="{{ ticket.image.url }}" class="img-fluid ">
         <p>{{ ticket.description }}</p>
         <p></p>
     </div>
 </div>
-{% endblock content %}
+
+
+
+{% endblock %}

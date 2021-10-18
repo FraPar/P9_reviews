@@ -1,0 +1,17 @@
+{% extends 'header_footer.html' %}
+
+{% block content %}
+    <h2>Modifier la review</h2>
+    <form action="" method="POST" enctype="multipart/form-data">
+        {{ edit_review.as_p }}
+        {% csrf_token %}
+        <button type="submit" >Sauvegarder</button>
+    </form>
+    <hr>
+    <h3>Supprimer le review ?</h3>
+    <form method="post">
+        {{ delete_review }}
+        {% csrf_token %}
+        <button type="submit" >Supprimer</button>
+    </form>
+{% endblock content %}

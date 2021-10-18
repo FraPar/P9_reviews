@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'header_footer.html' %}
 {% block content %}
 
     <div class="row text-center">
@@ -16,7 +16,7 @@
 
     <h2>Tickets</h2>
     <div class="grid-container">
-    {% for ticket in tickets %}
+    {% for ticket in page_obj %}
         <div class="post col-md-11 text-center img-thumbnail mx-auto mb-4">
             <a href="{% url 'view_ticket' ticket.id %}">
                 <p>{{ ticket.id }}</p>
@@ -26,5 +26,28 @@
             </a>
         </div>
     {% endfor %}
+    <div class="row text-center">
+        <div class="col">
+            <span>
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">« première</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">précédente</a>
+                {% endif %}
+            
+                <span>
+                    Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}.
+
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">suivante</a>
+                    
+                    <a href="?page={{ page_obj.paginator.num_pages }}">dernière »</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+    {% if not page_obj %}
+    <p>Il n'y a pas de tickets</p>
+    {% endif %}
     </div>
 {% endblock %}
