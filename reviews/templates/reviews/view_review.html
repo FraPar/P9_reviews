@@ -1,0 +1,21 @@
+{% extends 'header_footer.html' %}
+{% block content %}
+<div class="row ">
+    <div class="col-md-11 text-center img-thumbnail mx-auto">
+        <p>{{ ticket.id }}</p>
+        <h3>{{ ticket.title }} by {{ ticket.user }}</h3>
+        <img src="{{ ticket.image.url }}" class="img-fluid ">
+        <p>{{ ticket.description }}</p>
+        <p></p>
+    </div>
+</div>
+<div class="row ">
+    <div class="col-md-11 text-center img-thumbnail mx-auto mb-4">
+        <p>{{ review.id }}</p>
+        <h3>{{ review.headline }} by {{ review.user }}</h3>
+        <p>{{ review.rating }}</p>
+        <p>{{ review.body }}</p>
+        <p></p>
+    </div>
+</div>
+{% endblock content %}

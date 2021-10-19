@@ -35,11 +35,13 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^home/', reviews.views.home, name='home'),
     url(r'^signup/$', authentication.views.signup_page, name='signup'),
+    url(r'^view_follows$', reviews.views.view_follows, name='view_follows'),
     url(r'^reviews/ticket_create$', reviews.views.ticket_upload, name='ticket_create'),
     url(r'^reviews/ticket_and_review_create$', reviews.views.review_and_ticket_upload, name='review_and_ticket_create'),
     path('reviews/<int:ticket_id>', reviews.views.view_ticket, name='view_ticket'),
     path('reviews/<int:ticket_id>/edit', reviews.views.edit_ticket, name='edit_ticket'),
     path('reviews/<int:ticket_id>/review_create', reviews.views.review_upload, name='review_create'),
+    path('reviews/<int:ticket_id>/<int:review_id>', reviews.views.view_review, name='view_review'),
     path('reviews/<int:ticket_id>/<int:review_id>/edit', reviews.views.edit_review, name='edit_review'),
 ]
 

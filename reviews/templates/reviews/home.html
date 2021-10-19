@@ -14,17 +14,41 @@
         </div>
     </div>
 
-    <h2>Tickets</h2>
+    <h2>Tickets & Reviews</h2>
     <div class="grid-container">
-    {% for ticket in page_obj %}
+    {% for obj in page_obj %}
+        {% if obj.title %}
         <div class="post col-md-11 text-center img-thumbnail mx-auto mb-4">
-            <a href="{% url 'view_ticket' ticket.id %}">
-                <p>{{ ticket.id }}</p>
-                <h3>Ticket : {{ ticket.title }}</h3>
-                <img src="{{ ticket.image.url }}" class="img-fluid">
-                <p>{{ ticket.description }}</p>
+            <a href="{% url 'view_ticket' obj.id %}">
+                <p>{{ obj.id }}</p>
+                <h3>Ticket : {{ obj.title }}</h3>
+                <img src="{{ obj.image.url }}" class="img-fluid">
+                <p>{{ obj.description }}</p>
+                <p><a href="{% url 'edit_ticket' obj.id %}">Modifier le billet</a></p>
+                <p><a href="{% url 'review_create' obj.id %}">Créer une critique</a></p>
             </a>
         </div>
+        {% endif %}
+        {% if obj.ticket %}
+        <a href="{% url 'view_review' obj.ticket.id obj.id %}">
+        <div class="post col-md-11 text-center img-thumbnail mx-auto mb-4">
+                {% for ticket in all_tickets %}
+                    {% if obj.ticket.id == ticket.id %}
+                        <p>{{ ticket.id }}</p>
+                        <h3>Ticket : {{ ticket.title }}</h3>
+                        <img src="{{ ticket.image.url }}" class="img-fluid">
+                        <p>{{ ticket.description }}</p>
+                    {% endif %}
+                {% endfor %}
+            <div class="post col-md-11 text-center img-thumbnail mx-auto mb-4">
+                    <p>{{ obj.id }}</p>
+                    <h3>Review : {{ obj.headline }}</h3>
+                    <p>{{ obj.rating }}</p>
+                    <p>{{ obj.body }}</p>
+            </div>
+        </div>
+        </a>
+        {% endif %}
     {% endfor %}
     <div class="row text-center">
         <div class="col">

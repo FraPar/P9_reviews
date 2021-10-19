@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.core.paginator import Paginator
+from django.db.models import Q
+from itertools import chain
 
 # from .models import ALBUMS # commentez cette ligne
 
@@ -72,7 +74,7 @@ def edit_review(request, review_id):
 
 @login_required
 def review_upload(request, ticket_id):
-    ticket = get_object_or_404(models.Review, id=ticket_id)
+    ticket = get_object_or_404(models.Ticket, id=ticket_id)
     review_form = forms.ReviewForm()
     if request.method == 'POST':
         review_form = forms.ReviewForm(request.POST)
@@ -82,11 +84,30 @@ def review_upload(request, ticket_id):
             review.ticket = ticket
             review.save()
             return redirect('home')
-
     context = {
+        'ticket': ticket,
         'review_form': review_form,
     }
     return render(request, 'reviews/create_review.html', context=context)
+
+@login_required
+def view_review(request, ticket_id, review_id):
+    ticket = get_object_or_404(models.Ticket, id=ticket_id)
+    review = get_object_or_404(models.Review, id=review_id)
+    context = {
+        'ticket': ticket,
+        'review': review,
+    }
+    return render(request, 'reviews/view_review.html', context=context)
+
+@login_required
+def view_follows(request):
+    # followers = get_object_or_404(models.UserFollows, id=request.user.id)
+    followers = models.UserFollows.objects.all()
+    context = {
+        'followers': followers,
+    }
+    return render(request, 'reviews/view_follows.html', context=context)
 
 @login_required
 def review_and_ticket_upload(request):
@@ -112,13 +133,22 @@ def review_and_ticket_upload(request):
 
 @login_required
 def home(request):
-    tickets = models.Ticket.objects.all().order_by('time_created').reverse()
-
-    paginator = Paginator(tickets, 5)
-
+    tickets = models.Ticket.objects.all()
+    reviews = models.Review.objects.all()
+    
+    tickets_and_reviews = sorted(
+        chain(tickets, reviews),
+        key=lambda instance: instance.time_created,
+        reverse=True
+    )
+    paginator = Paginator(tickets_and_reviews, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    context = {'page_obj': page_obj}
+    context = {
+        'all_tickets': tickets,
+        'page_obj': page_obj,
+    }
+
     return render(request, 'reviews/home.html', context=context)
 
 @login_required
