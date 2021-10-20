@@ -25,26 +25,29 @@
                 <img src="{{ obj.image.url }}" class="img-fluid">
                 <p>{{ obj.description }}</p>
                 <p><a href="{% url 'edit_ticket' obj.id %}">Modifier le billet</a></p>
+                {% if obj.review_set.all.count == 0 %}
                 <p><a href="{% url 'review_create' obj.id %}">Créer une critique</a></p>
+                {% endif %}
             </a>
         </div>
         {% endif %}
+
         {% if obj.ticket %}
         <a href="{% url 'view_review' obj.ticket.id obj.id %}">
         <div class="post col-md-11 text-center img-thumbnail mx-auto mb-4">
-                {% for ticket in all_tickets %}
-                    {% if obj.ticket.id == ticket.id %}
-                        <p>{{ ticket.id }}</p>
-                        <h3>Ticket : {{ ticket.title }}</h3>
-                        <img src="{{ ticket.image.url }}" class="img-fluid">
-                        <p>{{ ticket.description }}</p>
-                    {% endif %}
-                {% endfor %}
-            <div class="post col-md-11 text-center img-thumbnail mx-auto mb-4">
+        
+            <h3>Ticket : {{ obj.ticket.id }}</h3>
+            <p>{{ obj.ticket.title }}</p>
+            <p>{{ obj.ticket.title.description }}</p>
+            <img src="{{ obj.ticket.image.url }}" class="img-fluid">
+        
+            <div class="post col-md-11 text-center img-thumbnail mx-auto mt-4 mb-4">
                     <p>{{ obj.id }}</p>
                     <h3>Review : {{ obj.headline }}</h3>
                     <p>{{ obj.rating }}</p>
                     <p>{{ obj.body }}</p>
+                    <p><a href="{% url 'edit_review' obj.ticket.id obj.id %}">Modifier la critique</a></p>
+
             </div>
         </div>
         </a>

@@ -1,10 +1,27 @@
 {% extends 'header_footer.html' %}
 {% block content %}
 
-<p>Follows</p>
+<form method="get" action="/search_user/">
+    Suivra d'autres utilisateur:<input type="text" name="q" id="id_q" value="{{ query }}"/>
+    <input type="submit" value="Search" />
+</form>
+
+<p>USER : {{ request.user }}</p>
+
+<p>Abonnements</p>
 {% for follower in followers %}
-<p>Hello</p>
+    {% if request.user == follower.user %}
+    <p>{{ follower.followed_user }}</p>
+    {% endif %}
 {% endfor %}
+
+<p>Abonnés</p>
+{% for follower in followers %}
+    {% if request.user == follower.followed_user %}
+    <p>{{ follower.user }}</p>
+    {% endif %}
+{% endfor %}
+
 
 
 {% endblock %}

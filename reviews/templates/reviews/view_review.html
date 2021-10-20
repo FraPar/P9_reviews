@@ -2,20 +2,20 @@
 {% block content %}
 <div class="row ">
     <div class="col-md-11 text-center img-thumbnail mx-auto">
-        <p>{{ ticket.id }}</p>
-        <h3>{{ ticket.title }} by {{ ticket.user }}</h3>
-        <img src="{{ ticket.image.url }}" class="img-fluid ">
-        <p>{{ ticket.description }}</p>
+        <h3>Ticket : {{ review.ticket.id }}</h3>
+        <p>{{ review.ticket.title }} by {{ review.ticket.user }}</p>
+        <img src="{{ review.ticket.image.url }}" class="img-fluid ">
+        <p>{{ review.ticket.description }}</p>
         <p></p>
-    </div>
-</div>
-<div class="row ">
-    <div class="col-md-11 text-center img-thumbnail mx-auto mb-4">
-        <p>{{ review.id }}</p>
-        <h3>{{ review.headline }} by {{ review.user }}</h3>
-        <p>{{ review.rating }}</p>
-        <p>{{ review.body }}</p>
-        <p></p>
+
+        <div class="col-md-11 text-center img-thumbnail mx-auto mb-4">
+            <p>{{ review.id }}</p>
+            <h3>{{ review.headline }} by {{ review.user }}</h3>
+            <p>{{ review.rating }}</p>
+            <p>{{ review.body }}</p>
+            <p><a href="{% url 'edit_review' review.ticket.id review.id %}">Modifier la critique</a></p>
+
+        </div>
     </div>
 </div>
 {% endblock content %}

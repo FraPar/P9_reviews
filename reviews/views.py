@@ -3,7 +3,6 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.core.paginator import Paginator
-from django.db.models import Q
 from itertools import chain
 
 # from .models import ALBUMS # commentez cette ligne
@@ -52,7 +51,9 @@ def edit_ticket(request, ticket_id):
     return render(request, 'reviews/edit_ticket.html', context=context)
 
 @login_required
-def edit_review(request, review_id):
+def edit_review(request, ticket_id, review_id):
+    # request.user (permet d'acceder a l'instance de l'user et son ID etc...)
+    ticket = get_object_or_404(models.Ticket, id=ticket_id)
     review = get_object_or_404(models.Review, id=review_id)
     edit_review = forms.ReviewForm(instance=review)
     delete_review = forms.DeleteReviewForm()
@@ -67,6 +68,7 @@ def edit_review(request, review_id):
                 review.delete()
                 return redirect('home')
     context = {
+        'ticket': ticket,
         'edit_review': edit_review,
         'delete_review': delete_review,
     }

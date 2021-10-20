@@ -1,6 +1,18 @@
 {% extends 'header_footer.html' %}
 
 {% block content %}
+
+<div class="row ">
+    <div class="col-md-11 text-center img-thumbnail mx-auto">
+        <h3>Ticket : {{ ticket.id }}</h3>
+        <p>{{ ticket.title }} by {{ ticket.user }}</p>
+        <img src="{{ ticket.image.url }}" class="img-fluid ">
+        <p>{{ ticket.description }}</p>
+        <p></p>
+    </div>
+</div>
+
+<div class="col-md-11 text-center img-thumbnail mx-auto">
     <h2>Modifier la review</h2>
     <form action="" method="POST" enctype="multipart/form-data">
         {{ edit_review.as_p }}
@@ -14,4 +26,5 @@
         {% csrf_token %}
         <button type="submit" >Supprimer</button>
     </form>
+</div>
 {% endblock content %}
