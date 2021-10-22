@@ -25,7 +25,7 @@ import reviews.views
 import authentication.views
 
 urlpatterns = [
-    url(r'^$', views.index),
+    url(r'^$', reviews.views.home, name='home'),
     url(r'^reviews/', include(("reviews.urls", 'reviews'), "reviews")),
     url(r'^login/', LoginView.as_view(
         template_name='authentication/login.html',
@@ -38,6 +38,7 @@ urlpatterns = [
     url(r'^view_follows$', reviews.views.view_follows, name='view_follows'),
     url(r'^reviews/ticket_create$', reviews.views.ticket_upload, name='ticket_create'),
     url(r'^reviews/ticket_and_review_create$', reviews.views.review_and_ticket_upload, name='review_and_ticket_create'),
+    url(r'^reviews/my_posts$', reviews.views.my_posts, name='my_posts'),
     path('reviews/<int:ticket_id>', reviews.views.view_ticket, name='view_ticket'),
     path('reviews/<int:ticket_id>/edit', reviews.views.edit_ticket, name='edit_ticket'),
     path('reviews/<int:ticket_id>/review_create', reviews.views.review_upload, name='review_create'),

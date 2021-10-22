@@ -1,0 +1,84 @@
+{% extends 'header_footer.html' %}
+{% block content %}
+
+    <div class="row text-center">
+        <div class="col">  
+            <a class="nav-link" href="/reviews/ticket_create">
+                <button type="button" class="btn btn-block btn-lg btn-outline-warning mb-2">Demander une critique</button>
+            </a>
+        </div>
+        <div class="col">
+            <a class="nav-link" href="/reviews/ticket_and_review_create">
+                <button type="button" class="btn btn-block btn-lg btn-outline-success mb-2">Créer une critique</button>
+            </a>
+        </div>
+    </div>
+
+    <h2>Tickets & Reviews</h2>
+    <div class="grid-container">
+    {% for obj in page_obj %}
+        {% if obj.title %}
+        <div class="post col-md-11 text-center img-thumbnail mx-auto mb-4">
+            <a href="{% url 'view_ticket' obj.id %}">
+                <p>{{ obj.id }}</p>
+                <h3>Ticket : {{ obj.title }}</h3>
+                <img src="{{ obj.image.url }}" class="img-fluid">
+                <p>{{ obj.description }}</p>
+                {% if obj.review_set.all.count == 0 %}
+                <p><a href="{% url 'review_create' obj.id %}">Créer une critique</a></p>
+                {% endif %}
+                {% if request.user == obj.user %}
+                <p><a href="{% url 'edit_ticket' obj.id %}">Modifier le billet</a></p>
+                {% endif %}
+            </a>
+        </div>
+        {% endif %}
+
+        {% if obj.ticket %}
+        <a href="{% url 'view_review' obj.ticket.id obj.id %}">
+        <div class="post col-md-11 text-center img-thumbnail mx-auto mb-4">
+        
+            <h3>Ticket : {{ obj.ticket.id }}</h3>
+            <p>{{ obj.ticket.title }}</p>
+            <p>{{ obj.ticket.title.description }}</p>
+            <img src="{{ obj.ticket.image.url }}" class="img-fluid">
+        
+            <div class="post col-md-11 text-center img-thumbnail mx-auto mt-4 mb-4">
+                    <p>{{ obj.id }}</p>
+                    <h3>Review : {{ obj.headline }}</h3>
+                    <p>{{ obj.rating }}</p>
+                    <p>{{ obj.body }}</p>
+                    {% if request.user == obj.user %}
+                    <p><a href="{% url 'edit_review' obj.ticket.id obj.id %}">Modifier la critique</a></p>
+                    {% endif %}
+
+            </div>
+        </div>
+        </a>
+        {% endif %}
+    {% endfor %}
+    <div class="row text-center">
+        <div class="col">
+            <span>
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">« première</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">précédente</a>
+                {% endif %}
+            
+                <span>
+                    Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}.
+
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">suivante</a>
+                    
+                    <a href="?page={{ page_obj.paginator.num_pages }}">dernière »</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+    {% if not page_obj %}
+    <p>Il n'y a pas de tickets</p>
+    {% endif %}
+    </div>
+{% endblock %}

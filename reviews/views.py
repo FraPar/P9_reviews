@@ -57,16 +57,23 @@ def edit_review(request, ticket_id, review_id):
     review = get_object_or_404(models.Review, id=review_id)
     edit_review = forms.ReviewForm(instance=review)
     delete_review = forms.DeleteReviewForm()
-    if request.method == 'POST':
-        edit_review = forms.ReviewForm(request.POST, instance=review)
-        if edit_review.is_valid():
-            edit_review.save()
-            return redirect('home')
-        if 'delete_review' in request.POST:
-            delete_review = forms.DeleteReviewForm(request.POST)
-            if delete_review.is_valid():
-                review.delete()
+    if request.user == ticket.user:
+        if request.method == 'POST':
+            edit_review = forms.ReviewForm(request.POST, instance=review)
+            if edit_review.is_valid():
+                edit_review.save()
                 return redirect('home')
+            if 'delete_review' in request.POST:
+                delete_review = forms.DeleteReviewForm(request.POST)
+                if delete_review.is_valid():
+                    review.delete()
+                    return redirect('home')
+    else:
+        context = {
+            'ticket': ticket,
+            'review': review,
+        }
+        return render(request, 'reviews/view_review.html', context=context)
     context = {
         'ticket': ticket,
         'edit_review': edit_review,
@@ -152,6 +159,26 @@ def home(request):
     }
 
     return render(request, 'reviews/home.html', context=context)
+
+@login_required
+def my_posts(request):
+    tickets = models.Ticket.objects.filter(user=request.user)
+    reviews = models.Review.objects.filter(user=request.user)
+    
+    tickets_and_reviews = sorted(
+        chain(tickets, reviews),
+        key=lambda instance: instance.time_created,
+        reverse=True
+    )
+    paginator = Paginator(tickets_and_reviews, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {
+        'all_tickets': tickets,
+        'page_obj': page_obj,
+    }
+
+    return render(request, 'reviews/flux.html', context=context)
 
 @login_required
 def view_ticket(request, ticket_id):

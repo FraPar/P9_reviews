@@ -24,9 +24,11 @@
                 <h3>Ticket : {{ obj.title }}</h3>
                 <img src="{{ obj.image.url }}" class="img-fluid">
                 <p>{{ obj.description }}</p>
-                <p><a href="{% url 'edit_ticket' obj.id %}">Modifier le billet</a></p>
                 {% if obj.review_set.all.count == 0 %}
                 <p><a href="{% url 'review_create' obj.id %}">Créer une critique</a></p>
+                {% endif %}
+                {% if request.user == obj.user %}
+                <p><a href="{% url 'edit_ticket' obj.id %}">Modifier le billet</a></p>
                 {% endif %}
             </a>
         </div>
@@ -46,7 +48,9 @@
                     <h3>Review : {{ obj.headline }}</h3>
                     <p>{{ obj.rating }}</p>
                     <p>{{ obj.body }}</p>
+                    {% if request.user == obj.user %}
                     <p><a href="{% url 'edit_review' obj.ticket.id obj.id %}">Modifier la critique</a></p>
+                    {% endif %}
 
             </div>
         </div>
