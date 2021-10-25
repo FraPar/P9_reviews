@@ -122,12 +122,24 @@ def view_follows(request):
 
 @login_required
 def add_follow(request):
-    print(request.user.id)
-    user1 = get_object_or_404(User, username="admin")
-    user2 = get_object_or_404(User, username="superadmin")
-
-    models.UserFollows.objects.create(user=user1,
-                             followed_user=user2)
+    users = User.objects.all()
+    follow = models.UserFollows.objects.filter(user=request.user.id)
+    print(users)
+    print(follow)
+    if request.method == 'POST':
+        try:
+            form = request.POST
+            user1 = get_object_or_404(User, username=request.user.username)
+            user2 = get_object_or_404(User, username=form["follow_user"])
+            # for follows in follow:
+            #    if form["follow_user"] == follows.followed_user:
+            #        return redirect(view_follows)
+            if user1 == user2:
+                return redirect(view_follows)
+            models.UserFollows.objects.create(user=user1,
+                                    followed_user=user2)
+        except:
+            return redirect(view_follows)
     return redirect(view_follows)
 
 @login_required
