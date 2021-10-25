@@ -1,7 +1,11 @@
 {% extends 'header_footer.html' %}
 {% block content %}
 
-    Suivre d'autres utilisateurs:<input type="text" name="q" id="id_q" value="{{ query }}"/>
+<form action="/add_follow/" method="POST">
+    {{ follow_form.as_p }}
+    {% csrf_token %}
+    <button type="submit">Publier</button>
+</form>
 
 <p>USER : {{ request.user }}</p>
 
@@ -9,6 +13,11 @@
 {% for follower in followers %}
     {% if request.user == follower.user %}
     <p>{{ follower.followed_user }}</p>
+    <form method="POST">
+        {{ delete_follow }}
+        {% csrf_token %}
+        <a href="{% url 'delete_follows' follower.id  %}">X Supprimer</a>
+    </form>
     {% endif %}
 {% endfor %}
 

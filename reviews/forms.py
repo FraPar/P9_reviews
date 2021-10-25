@@ -30,3 +30,14 @@ class ReviewForm(forms.ModelForm):
 
 class DeleteReviewForm(forms.Form):
     delete_review = forms.BooleanField(widget=forms.HiddenInput, initial=True)
+
+
+class FollowedUserForm(forms.ModelForm):
+    
+    class Meta:
+        model = models.Review
+        fields = ['user']
+
+
+class DeleteFollowedUserForm(forms.Form):
+    delete_follow = forms.BooleanField(widget=forms.HiddenInput, initial=True)

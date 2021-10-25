@@ -4,14 +4,14 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.core.paginator import Paginator
 from itertools import chain
+from django.template import loader, RequestContext
 
 # from .models import ALBUMS # commentez cette ligne
 
 # Create your views here.
 
 from . import forms, models
-
-from django.template import loader
+from authentication.models import User
 
 @login_required
 def ticket_upload(request):
@@ -112,11 +112,42 @@ def view_review(request, ticket_id, review_id):
 @login_required
 def view_follows(request):
     # followers = get_object_or_404(models.UserFollows, id=request.user.id)
+    follow_form = forms.FollowedUserForm()
     followers = models.UserFollows.objects.all()
     context = {
         'followers': followers,
+        'follow_form': follow_form,
     }
     return render(request, 'reviews/view_follows.html', context=context)
+
+@login_required
+def add_follow(request):
+    print(request.user.id)
+    user1 = get_object_or_404(User, username="admin")
+    user2 = get_object_or_404(User, username="superadmin")
+
+    models.UserFollows.objects.create(user=user1,
+                             followed_user=user2)
+    return redirect(view_follows)
+
+@login_required
+def delete_follows(request, follower_id):
+    followed = get_object_or_404(models.UserFollows, id=follower_id)
+    followed.delete()
+    return redirect(view_follows)
+
+@login_required
+def search(request):
+    query = request.GET.get('q')
+    try:
+        query = int(query)
+    except ValueError:
+        query = None
+        results = None
+    if query:
+        results = models.UserFollows.objects.get(uid=query)
+    context = RequestContext(request)
+    return render('view_follows.html', {"results": results,}, context_instance=context)
 
 @login_required
 def review_and_ticket_upload(request):

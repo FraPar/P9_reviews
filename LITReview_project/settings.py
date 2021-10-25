@@ -13,6 +13,25 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 
+import sqlite3
+from sqlite3 import Error
+
+
+def create_connection(db_file):
+    """ create a database connection to a SQLite database """
+    conn = None
+    try:
+        conn = sqlite3.connect(db_file)
+        print(sqlite3.version)
+    except Error as e:
+        print(e)
+    finally:
+        if conn:
+            conn.close()
+
+create_connection(r"C:\Users\François\Desktop\OC\P9_maquette\LITReview_project\pythonsqlite.db" )
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -82,10 +101,10 @@ WSGI_APPLICATION = 'LITReview_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql', # on utilise l'adaptateur postgresql
-        'NAME': 'litreviews', # le nom de notre base de donnees creee precedemment
-        'USER': 'postgres', # attention : remplacez par votre nom d'utilisateur
-        'PASSWORD': '&sqlP4ssw0rd',
+        'ENGINE': 'django.db.backends.sqlite3', # on utilise l'adaptateur postgresql
+        'NAME': BASE_DIR / 'db.sqlite3', # le nom de notre base de donnees creee precedemment
+        'USER': '', # attention : remplacez par votre nom d'utilisateur
+        'PASSWORD': '',
         'HOST': '',
         'PORT': '5432',
     }

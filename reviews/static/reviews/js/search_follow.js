@@ -7,20 +7,20 @@ const input = document.querySelector('input');
 const log = document.getElementById('id_q');
 
 input.addEventListener('keyup', () =>
-    console.log(log.value)
+    unecommande("SELECT * FROM *")
 );
 
 var thisUser = "";
 
 // get the selection of users and load it on the page
 function getSelection(user_to_find) {
-    var url = user_to_find;
-    $.get(url).done(function(data) {
+    var url = "http://127.0.0.1:8000/view_follows/" + user_to_find;
+    jQuery.get(url).done(function(data) {
         //alert( "second success" )
-        console.log("ca fonctionne")
+        console.log(data)
      })
      .fail(function() {
-         alert( "error" );
+        console.log("error");
      })
      .always(function() {
          //alert( "finished" )
