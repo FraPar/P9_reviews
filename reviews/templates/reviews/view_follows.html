@@ -1,10 +1,7 @@
 {% extends 'header_footer.html' %}
 {% block content %}
 
-<form method="get" action="/search_user/">
-    Suivra d'autres utilisateur:<input type="text" name="q" id="id_q" value="{{ query }}"/>
-    <input type="submit" value="Search" />
-</form>
+    Suivre d'autres utilisateurs:<input type="text" name="q" id="id_q" value="{{ query }}"/>
 
 <p>USER : {{ request.user }}</p>
 
