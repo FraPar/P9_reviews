@@ -4,28 +4,38 @@
 <form action="/add_follow/" method="POST">
     {% csrf_token %}
     <label for="follow_user">Follow user: </label>
-    <input id="follow_user" type="text" name="follow_user" value="q">
+    <input id="follow_user" type="text" name="follow_user" placeholder="Tapez le nom d'utilisateur">
     <input type="submit" value="Follow">
 </form>
 
 <p>USER : {{ request.user }}</p>
 
 <p>Abonnements</p>
+<div class="grid-container">
 {% for follower in followers %}
     {% if request.user == follower.user %}
-    <p>{{ follower.followed_user }}</p>
-    <form method="POST">
-        {{ delete_follow }}
-        {% csrf_token %}
-        <a href="{% url 'delete_follows' follower.id  %}">X Supprimer</a>
-    </form>
+    <div class="row text-center">
+        <div class="col-md-10 img-thumbnail mx-auto mb-1">
+        <p>{{ follower.followed_user }}</p>
+        </div>
+        <div class="col-md-2 img-thumbnail mx-auto mb-1">
+            <form method="POST">
+                {{ delete_follow }}
+                {% csrf_token %}
+                <a href="{% url 'delete_follows' follower.id  %}">X Supprimer</a>
+            </form>
+        </div>
+    </div>
     {% endif %}
 {% endfor %}
+</div>
 
 <p>Abonnés</p>
 {% for follower in followers %}
     {% if request.user == follower.followed_user %}
-    <p>{{ follower.user }}</p>
+    <div class="col-md-12 text-center img-thumbnail mx-auto mb-4">
+        <p>{{ follower.user }}</p>
+    </div>
     {% endif %}
 {% endfor %}
 

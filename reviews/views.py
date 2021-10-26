@@ -112,11 +112,9 @@ def view_review(request, ticket_id, review_id):
 @login_required
 def view_follows(request):
     # followers = get_object_or_404(models.UserFollows, id=request.user.id)
-    follow_form = forms.FollowedUserForm()
     followers = models.UserFollows.objects.all()
     context = {
         'followers': followers,
-        'follow_form': follow_form,
     }
     return render(request, 'reviews/view_follows.html', context=context)
 
@@ -131,9 +129,6 @@ def add_follow(request):
             form = request.POST
             user1 = get_object_or_404(User, username=request.user.username)
             user2 = get_object_or_404(User, username=form["follow_user"])
-            # for follows in follow:
-            #    if form["follow_user"] == follows.followed_user:
-            #        return redirect(view_follows)
             if user1 == user2:
                 return redirect(view_follows)
             models.UserFollows.objects.create(user=user1,

@@ -26,11 +26,10 @@ import authentication.views
 
 urlpatterns = [
     url(r'^$', reviews.views.home, name='home'),
-    url(r'^reviews/', include(("reviews.urls", 'reviews'), "reviews")),
     url(r'^login/', LoginView.as_view(
         template_name='authentication/login.html',
         redirect_authenticated_user=True),
-         name='login'),
+        name='login'),
     url(r'^logout/', LogoutView.as_view(), name='logout'),
     url(r'^admin/', admin.site.urls),
     url(r'^home/', reviews.views.home, name='home'),
