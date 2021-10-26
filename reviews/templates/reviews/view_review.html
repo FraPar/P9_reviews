@@ -11,6 +11,35 @@
         <div class="col-md-11 text-center img-thumbnail mx-auto mb-4">
             <p>{{ review.id }}</p>
             <h3>{{ review.headline }} by {{ review.user }}</h3>
+            {% with ''|center:review.rating as Mylist1 %}
+                {% for i in Mylist1 %}
+                <i class="fas fa-star"></i>
+                    {% if forloop.counter == review.rating %}                            
+                        {% with ''|center:5 as Mylist2 %}
+                            {% for j in Mylist2 %}
+                                {% if forloop.parentloop.counter|add:forloop.counter == 1 %}                            
+                                    <i class="far fa-star"></i>
+                                {% elif forloop.parentloop.counter|add:forloop.counter == 2 %}
+                                    <i class="far fa-star"></i>
+                                {% elif forloop.parentloop.counter|add:forloop.counter == 3 %}
+                                    <i class="far fa-star"></i>
+                                {% elif forloop.parentloop.counter|add:forloop.counter == 4 %}
+                                    <i class="far fa-star"></i>
+                                {% elif forloop.parentloop.counter|add:forloop.counter == 5 %}
+                                    <i class="far fa-star"></i>
+                                {% endif %}
+                            {% endfor %}
+                        {% endwith %}
+                    {% endif %}
+                {% endfor %}
+            {% endwith %}
+            {% if review.rating == 0 %} 
+                {% with ''|center:5 as Mylist3 %}
+                    {% for k in Mylist3 %}
+                        <i class="far fa-star"></i>
+                    {% endfor %}
+                {% endwith %}
+            {% endif %}
             <p>{{ review.rating }}</p>
             <p>{{ review.body }}</p>
             {% if request.user == review.user %}

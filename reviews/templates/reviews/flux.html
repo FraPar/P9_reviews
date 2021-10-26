@@ -1,60 +1,87 @@
 {% extends 'header_footer.html' %}
 {% block content %}
 
-    <div class="row text-center">
-        <div class="col">  
-            <a class="nav-link" href="/reviews/ticket_create">
-                <button type="button" class="btn btn-block btn-lg btn-outline-warning mb-2">Demander une critique</button>
-            </a>
-        </div>
-        <div class="col">
-            <a class="nav-link" href="/reviews/ticket_and_review_create">
-                <button type="button" class="btn btn-block btn-lg btn-outline-success mb-2">Créer une critique</button>
-            </a>
-        </div>
-    </div>
-
-    <h2>Tickets & Reviews</h2>
+    <h2>Vos posts</h2>
     <div class="grid-container">
     {% for obj in page_obj %}
         {% if obj.title %}
         <div class="post col-md-11 text-center img-thumbnail mx-auto mb-4">
             <a href="{% url 'view_ticket' obj.id %}">
-                <p>{{ obj.id }}</p>
+                {% if request.user == obj.user %}
+                <p>Vous avez demandé cette critique</p>
+                {% else %}
+                <p>{{ obj.user}} a demandé une critique</p>
+                {% endif %}
+                <p>{{ obj.time_created }}</p>
                 <h3>Ticket : {{ obj.title }}</h3>
                 <img src="{{ obj.image.url }}" class="img-fluid">
                 <p>{{ obj.description }}</p>
                 {% if obj.review_set.all.count == 0 %}
                 <p><a href="{% url 'review_create' obj.id %}">Créer une critique</a></p>
                 {% endif %}
-                {% if request.user == obj.user %}
                 <p><a href="{% url 'edit_ticket' obj.id %}">Modifier le billet</a></p>
-                {% endif %}
             </a>
         </div>
         {% endif %}
 
         {% if obj.ticket %}
+
         <a href="{% url 'view_review' obj.ticket.id obj.id %}">
         <div class="post col-md-11 text-center img-thumbnail mx-auto mb-4">
         
-            <h3>Ticket : {{ obj.ticket.id }}</h3>
-            <p>{{ obj.ticket.title }}</p>
-            <p>{{ obj.ticket.title.description }}</p>
-            <img src="{{ obj.ticket.image.url }}" class="img-fluid">
+            {% if request.user == obj.user %}
+            <p>Vous avez publié cette critique</p>
+            {% else %}
+            <p>{{ obj.user}} a publié cette critique</p>
+            {% endif %}
+            <p>{{ obj.time_created }}</p>
+            <h3>Review : {{ obj.headline }}</h3>
+            {% with ''|center:obj.rating as Mylist1 %}
+                {% for i in Mylist1 %}
+                <i class="fas fa-star"></i>
+                    {% if forloop.counter == obj.rating %}                            
+                        {% with ''|center:5 as Mylist2 %}
+                            {% for j in Mylist2 %}
+                                {% if forloop.parentloop.counter|add:forloop.counter == 1 %}                            
+                                    <i class="far fa-star"></i>
+                                {% elif forloop.parentloop.counter|add:forloop.counter == 2 %}
+                                    <i class="far fa-star"></i>
+                                {% elif forloop.parentloop.counter|add:forloop.counter == 3 %}
+                                    <i class="far fa-star"></i>
+                                {% elif forloop.parentloop.counter|add:forloop.counter == 4 %}
+                                    <i class="far fa-star"></i>
+                                {% elif forloop.parentloop.counter|add:forloop.counter == 5 %}
+                                    <i class="far fa-star"></i>
+                                {% endif %}
+                            {% endfor %}
+                        {% endwith %}
+                    {% endif %}
+                {% endfor %}
+            {% endwith %}
+            {% if obj.rating == 0 %} 
+                {% with ''|center:5 as Mylist3 %}
+                    {% for k in Mylist3 %}
+                        <i class="far fa-star"></i>
+                    {% endfor %}
+                {% endwith %}
+            {% endif %}
+            <p>{{ obj.body }}</p>
+            </a>
+            {% if request.user == obj.user %}
+            <p><a href="{% url 'edit_review' obj.ticket.id obj.id %}">Modifier la critique</a></p>
+            {% endif %}
         
             <div class="post col-md-11 text-center img-thumbnail mx-auto mt-4 mb-4">
-                    <p>{{ obj.id }}</p>
-                    <h3>Review : {{ obj.headline }}</h3>
-                    <p>{{ obj.rating }}</p>
-                    <p>{{ obj.body }}</p>
-                    {% if request.user == obj.user %}
-                    <p><a href="{% url 'edit_review' obj.ticket.id obj.id %}">Modifier la critique</a></p>
-                    {% endif %}
+                <a href="{% url 'view_review' obj.ticket.id obj.id %}">
+
+                    <h3>Ticket - {% if request.user == obj.user %} Vous {% else %} {{ obj.ticket.user }} {% endif %}</h3>
+                    <p>{{ obj.ticket.title }}</p>
+                    <p>{{ obj.ticket.title.description }}</p>
+                    <img src="{{ obj.ticket.image.url }}" class="img-fluid">     
+                </a>
 
             </div>
         </div>
-        </a>
         {% endif %}
     {% endfor %}
     <div class="row text-center">

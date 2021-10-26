@@ -106,6 +106,7 @@ def view_review(request, ticket_id, review_id):
     context = {
         'ticket': ticket,
         'review': review,
+        'rating': review.rating,
     }
     return render(request, 'reviews/view_review.html', context=context)
 

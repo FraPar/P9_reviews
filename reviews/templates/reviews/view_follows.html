@@ -3,12 +3,10 @@
 
 <form action="/add_follow/" method="POST">
     {% csrf_token %}
-    <label for="follow_user">Follow user: </label>
-    <input id="follow_user" type="text" name="follow_user" placeholder="Tapez le nom d'utilisateur">
-    <input type="submit" value="Follow">
+    <label for="follow_user">Suivre d'autres utilisateurs: </label>
+    <input id="follow_user" type="text" name="follow_user" placeholder="Nom d'utilisateur">
+    <input type="submit" value="Envoyer">
 </form>
-
-<p>USER : {{ request.user }}</p>
 
 <p>Abonnements</p>
 <div class="grid-container">
@@ -22,7 +20,7 @@
             <form method="POST">
                 {{ delete_follow }}
                 {% csrf_token %}
-                <a href="{% url 'delete_follows' follower.id  %}">X Supprimer</a>
+                <a href="{% url 'delete_follows' follower.id  %}">Désabonner</a>
             </form>
         </div>
     </div>
