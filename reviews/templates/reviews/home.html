@@ -100,7 +100,7 @@
             <div class="post col-md-11 text-center img-thumbnail mx-auto mt-4 mb-4">
                 <a href="{% url 'view_review' obj.ticket.id obj.id %}">
 
-                    <h3>Ticket - {% if request.user == obj.user %} Vous {% else %} {{ obj.ticket.user }} {% endif %}</h3>
+                    <h3>Ticket - {% if request.user == obj.ticket.user %} Vous {% else %} {{ obj.ticket.user }} {% endif %}</h3>
                     <p>{{ obj.ticket.title }}</p>
                     <p>{{ obj.ticket.title.description }}</p>
                     <img src="{{ obj.ticket.image.url }}" class="img-fluid">     
@@ -114,8 +114,8 @@
         <div class="col">
             <span>
                 {% if page_obj.has_previous %}
-                    <a href="?page=1">« première</a>
-                    <a href="?page={{ page_obj.previous_page_number }}">précédente</a>
+                    <a href="?page=1"><i class="fas fa-fast-backward"></i></a>
+                    <a href="?page={{ page_obj.previous_page_number }}"><i class="fas fa-step-backward"></i></a>
                 {% endif %}
             
                 <span>
@@ -123,9 +123,9 @@
 
                 </span>
                 {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}">suivante</a>
+                    <a href="?page={{ page_obj.next_page_number }}"><i class="fas fa-step-forward"></i></a>
                     
-                    <a href="?page={{ page_obj.paginator.num_pages }}">dernière »</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}"><i class="fas fa-fast-forward"></i></a>
                 {% endif %}
             </span>
         </div>

@@ -57,7 +57,7 @@ def edit_review(request, ticket_id, review_id):
     review = get_object_or_404(models.Review, id=review_id)
     edit_review = forms.ReviewForm(instance=review)
     delete_review = forms.DeleteReviewForm()
-    if request.user == ticket.user:
+    if request.user == review.user:
         if request.method == 'POST':
             edit_review = forms.ReviewForm(request.POST, instance=review)
             if edit_review.is_valid():
@@ -68,18 +68,18 @@ def edit_review(request, ticket_id, review_id):
                 if delete_review.is_valid():
                     review.delete()
                     return redirect('home')
-    else:
-        context = {
-            'ticket': ticket,
-            'review': review,
-        }
-        return render(request, 'reviews/view_review.html', context=context)
+        else:
+            context = {
+                'ticket': ticket,
+                'edit_review': edit_review,
+                'delete_review': delete_review,
+            }
+            return render(request, 'reviews/edit_review.html', context=context)
     context = {
         'ticket': ticket,
-        'edit_review': edit_review,
-        'delete_review': delete_review,
+        'review': review,
     }
-    return render(request, 'reviews/edit_review.html', context=context)
+    return render(request, 'reviews/view_review.html', context=context)
 
 @login_required
 def review_upload(request, ticket_id):
