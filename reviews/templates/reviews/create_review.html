@@ -5,12 +5,18 @@
     <div class="col-md-11 text-center img-thumbnail mx-auto">
         <p>Vous êtes en train de poster en réponse à</p>
         <div class="post col-md-11 text-center img-thumbnail mx-auto mb-4">
-            {% if request.user == ticket.user %}
-            <p>Vous avez demandé cette critique</p>
-            {% else %}
-            <p>{{ ticket.user}} a demandé une critique</p>
-            {% endif %}
-            <p>{{ ticket.time_created }}</p>
+            <div class="row">
+                <div class="col-md-6">
+                    {% if request.user == ticket.user %}
+                        <p>Vous avez demandé cette critique</p>
+                    {% else %}
+                        <p>{{ ticket.user}} a demandé une critique</p>
+                    {% endif %}
+                </div>
+                <div class="col-md-6">
+                    <p>{{ ticket.time_created }}</p>
+                </div>
+            </div>
             <h3>{{ ticket.title }}</h3>
             <p>{{ ticket.description }}</p>
             <img src="{{ ticket.image.url }}" class="img-fluid">

@@ -19,12 +19,18 @@
         {% if obj.title %}
         <div class="post col-md-11 text-center img-thumbnail mx-auto mb-4">
             <a href="{% url 'view_ticket' obj.id %}">
-                {% if request.user == obj.user %}
-                <p>Vous avez demandé cette critique</p>
-                {% else %}
-                <p>{{ obj.user}} a demandé une critique</p>
-                {% endif %}
-                <p>{{ obj.time_created }}</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        {% if request.user == obj.user %}
+                            <p>Vous avez demandé cette critique</p>
+                        {% else %}
+                            <p>{{ obj.user}} a demandé une critique</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <p>{{ obj.time_created }}</p>
+                    </div>
+                </div>
                 <h3>Ticket : {{ obj.title }}</h3>
                 <img src="{{ obj.image.url }}" class="img-fluid">
                 <p>{{ obj.description }}</p>
@@ -43,12 +49,18 @@
         <a href="{% url 'view_review' obj.ticket.id obj.id %}">
         <div class="post col-md-11 text-center img-thumbnail mx-auto mb-4">
         
-            {% if request.user == obj.user %}
-            <p>Vous avez publié cette critique</p>
-            {% else %}
-            <p>{{ obj.user}} a publié cette critique</p>
-            {% endif %}
-            <p>{{ obj.time_created }}</p>
+            <div class="row">
+                <div class="col-md-6">
+                    {% if request.user == obj.user %}
+                        <p>Vous avez publié cette critique</p>
+                    {% else %}
+                        <p>{{ obj.user}} a publié cette critique</p>
+                    {% endif %}
+                </div>
+                <div class="col-md-6">
+                    <p>{{ obj.time_created }}</p>
+                </div>
+            </div>
             <h3>{{ obj.headline }}</h3>
             {% with ''|center:obj.rating as Mylist1 %}
                 {% for i in Mylist1 %}
