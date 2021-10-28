@@ -42,9 +42,11 @@ urlpatterns = [
     path('add_follow/', reviews.views.add_follow, name='add_follow'),
     path('reviews/<int:ticket_id>', reviews.views.view_ticket, name='view_ticket'),
     path('reviews/<int:ticket_id>/edit', reviews.views.edit_ticket, name='edit_ticket'),
+    path('reviews/<int:ticket_id>/delete_ticket', reviews.views.delete_ticket, name='delete_ticket'),
     path('reviews/<int:ticket_id>/review_create', reviews.views.review_upload, name='review_create'),
     path('reviews/<int:ticket_id>/<int:review_id>', reviews.views.view_review, name='view_review'),
     path('reviews/<int:ticket_id>/<int:review_id>/edit', reviews.views.edit_review, name='edit_review'),
+    path('reviews/<int:review_id>/delete_review', reviews.views.delete_review, name='delete_review'),
 ]
 
 if settings.DEBUG:

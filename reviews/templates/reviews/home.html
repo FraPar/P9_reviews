@@ -34,23 +34,15 @@
                 <h3>Ticket : {{ obj.title }}</h3>
                 <img src="{{ obj.image.url }}" class="img-fluid">
                 <p>{{ obj.description }}</p>
-                <div class="row">
                     {% if obj.review_set.all.count == 0 %}
-                        <div class="post col-md-5 text-center mx-auto mb-4">
+                    <div class="row">
+                        <div class="post col-md-4 text-center mx-auto mb-4">
                             <a class="nav-link" href="{% url 'review_create' obj.id %}">
-                                <button type="button" class="btn btn-block btn-lg btn-outline-success mb-1">Créer une critique</button>
-                            </a>  
-                        </div>
-                    {% endif %}
-
-                    {% if request.user == obj.user %}
-                        <div class="post col-md-5 text-center mx-auto mb-4">
-                            <a class="nav-link" href="{% url 'edit_ticket' obj.id %}">
-                                <button type="button" class="btn btn-block btn-lg btn-outline-warning mb-1">Modifier le billet</button>
+                                        <button type="button" class="btn btn-block btn-lg btn-outline-success mb-1">Créer une critique</button>
                             </a> 
                         </div>
+                    </div>
                     {% endif %}
-                </div>
             </a>
         </div>
         {% endif %}
@@ -107,21 +99,10 @@
             <div class="post col-md-11 text-center img-thumbnail mx-auto mt-4 mb-1">
                     <h3>Ticket - {% if request.user == obj.ticket.user %} Vous {% else %} {{ obj.ticket.user }} {% endif %}</h3>
                     <p>{{ obj.ticket.title }}</p>
-                    <p>{{ obj.ticket.title.description }}</p>
+                    <p>{{ obj.ticket.description }}</p>
                     <img src="{{ obj.ticket.image.url }}" class="img-fluid">     
             </div>
             </a>
-
-            {% if request.user == obj.user %}
-            <div class="row">
-                <div class="post col-md-4 text-center mx-auto">
-                    <a class="nav-link" href="{% url 'edit_review' obj.ticket.id obj.id %}">
-                        <button type="button" class="btn btn-block btn-lg btn-outline-warning mb-1">Modifier la critique</button>
-                    </a>
-                </div>            
-            </div>            
-            {% endif %}
-
         </div>
         {% endif %}
     {% endfor %}

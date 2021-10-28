@@ -51,6 +51,14 @@ def edit_ticket(request, ticket_id):
     return render(request, 'reviews/edit_ticket.html', context=context)
 
 @login_required
+def delete_ticket(request, ticket_id):
+    ticket = get_object_or_404(models.Ticket, id=ticket_id)
+    if request.method == 'POST':
+        ticket.delete()
+    return redirect('home')
+
+
+@login_required
 def edit_review(request, ticket_id, review_id):
     # request.user (permet d'acceder a l'instance de l'user et son ID etc...)
     ticket = get_object_or_404(models.Ticket, id=ticket_id)
@@ -59,12 +67,14 @@ def edit_review(request, ticket_id, review_id):
     delete_review = forms.DeleteReviewForm()
     if request.user == review.user:
         if request.method == 'POST':
+            print(request.POST)
             edit_review = forms.ReviewForm(request.POST, instance=review)
             if edit_review.is_valid():
                 edit_review.save()
                 return redirect('home')
             if 'delete_review' in request.POST:
                 delete_review = forms.DeleteReviewForm(request.POST)
+                print(delete_review)
                 if delete_review.is_valid():
                     review.delete()
                     return redirect('home')
@@ -80,6 +90,16 @@ def edit_review(request, ticket_id, review_id):
         'review': review,
     }
     return render(request, 'reviews/view_review.html', context=context)
+
+@login_required
+def delete_review(request, review_id):
+    # request.user (permet d'acceder a l'instance de l'user et son ID etc...)
+    review = get_object_or_404(models.Review, id=review_id)
+    if request.user == review.user:
+        if request.method == 'POST':
+            review.delete()
+    return redirect('home')
+
 
 @login_required
 def review_upload(request, ticket_id):
@@ -203,7 +223,7 @@ def home(request):
 def my_posts(request):
     tickets = models.Ticket.objects.filter(user=request.user)
     reviews = models.Review.objects.filter(user=request.user)
-    
+
     tickets_and_reviews = sorted(
         chain(tickets, reviews),
         key=lambda instance: instance.time_created,
