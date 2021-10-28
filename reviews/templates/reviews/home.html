@@ -17,7 +17,7 @@
     <div class="grid-container">
     {% for obj in page_obj %}
         {% if obj.title %}
-        <div class="post col-md-11 text-center img-thumbnail mx-auto mb-4">
+        <div class="post col-md-11 text-center border mx-auto mb-4">
             <a href="{% url 'view_ticket' obj.id %}">
                 <div class="row">
                     <div class="col-md-6">
@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <h3>Ticket : {{ obj.title }}</h3>
-                <img src="{{ obj.image.url }}" class="img-fluid">
+                <img src="{{ obj.image.url }}" class="img-fluid shadow-lg bg-white rounded">
                 <p>{{ obj.description }}</p>
                     {% if obj.review_set.all.count == 0 %}
                     <div class="row">
@@ -50,7 +50,7 @@
         {% if obj.ticket %}
 
         <a href="{% url 'view_review' obj.ticket.id obj.id %}">
-        <div class="post col-md-11 text-center img-thumbnail mx-auto mb-4">
+        <div class="post col-md-11 text-center border mx-auto mb-4">
         
             <div class="row">
                 <div class="col-md-6">
@@ -96,11 +96,11 @@
             {% endif %}
             <p>{{ obj.body }}</p>
         
-            <div class="post col-md-11 text-center img-thumbnail mx-auto mt-4 mb-1">
+            <div class="post col-md-11 text-center border mx-auto px-4 py-4">
                     <h3>Ticket - {% if request.user == obj.ticket.user %} Vous {% else %} {{ obj.ticket.user }} {% endif %}</h3>
                     <p>{{ obj.ticket.title }}</p>
                     <p>{{ obj.ticket.description }}</p>
-                    <img src="{{ obj.ticket.image.url }}" class="img-fluid">     
+                    <img src="{{ obj.ticket.image.url }}" class="img-fluid shadow-lg bg-white rounded">     
             </div>
             </a>
         </div>

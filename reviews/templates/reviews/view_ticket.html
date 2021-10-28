@@ -1,18 +1,35 @@
 {% extends 'header_footer.html' %}
 {% block content %}
 <div class="row ">
-    <div class="col-md-11 text-center img-thumbnail mx-auto mb-4">
+    <div class="col-md-11 text-center border mx-auto mb-4">
         <p>{{ ticket.id }}</p>
         <h3>{{ ticket.title }} by {{ ticket.user }}</h3>
-        {% if request.user == review.user %}
-        <p><a href="{% url 'edit_ticket' ticket.id %}">Modifier le billet</a></p>
-        {% endif %}
-        {% if ticket.review_set.all.count == 0 %}
-        <p><a href="{% url 'review_create' ticket.id %}">Créer une critique</a></p>
-        {% endif %}
         <img src="{{ ticket.image.url }}" class="img-fluid ">
         <p>{{ ticket.description }}</p>
-        <p></p>
+
+        <div class="row">
+            {% if ticket.review_set.all.count == 0 %}
+                <div class="post col-md-4 text-center mx-auto mb-4">
+                    <a class="nav-link" href="{% url 'review_create' ticket.id %}">
+                        <button type="button" class="btn btn-block btn-lg btn-outline-success mb-1">Créer une critique</button>
+                    </a>  
+                </div>
+            {% endif %}
+            {% if request.user == ticket.user %}
+            <div class="post col-md-4 text-center mx-auto mb-4">
+                <a class="nav-link" href="{% url 'edit_ticket' ticket.id %}">
+                    <button type="button" class="btn btn-block btn-lg btn-outline-warning mb-1">Modifier le billet</button>
+                </a> 
+            </div>
+            <div class="post col-md-4 text-center mx-auto mb-4 mt-2">
+                <form method="post" action="{% url 'delete_ticket' ticket.id %}">
+                    {{ delete_ticket }}
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-block btn-lg btn-outline-danger mb-1">Supprimer le billet</button>
+                </form>
+            </div> 
+            {% endif %}
+        </div>
     </div>
 </div>
 {% endblock content %}

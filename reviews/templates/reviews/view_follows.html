@@ -1,11 +1,11 @@
 {% extends 'header_footer.html' %}
 {% block content %}
 
-<form action="/add_follow/" method="POST">
+<form form class="form-inline" action="/add_follow/" method="POST">
     {% csrf_token %}
     <label for="follow_user">Suivre d'autres utilisateurs: </label>
-    <input id="follow_user" type="text" name="follow_user" placeholder="Nom d'utilisateur">
-    <input type="submit" value="Envoyer">
+    <input class="form-control" id="follow_user" type="text" name="follow_user" placeholder="Nom d'utilisateur">
+    <input class="btn btn-primary" type="submit" value="Envoyer">
 </form>
 
 <p>Abonnements</p>
@@ -13,10 +13,10 @@
 {% for follower in followers %}
     {% if request.user == follower.user %}
     <div class="row text-center">
-        <div class="col-md-10 img-thumbnail mx-auto mb-1">
+        <div class="col-md-10 border mx-auto mb-1">
         <p>{{ follower.followed_user }}</p>
         </div>
-        <div class="col-md-2 img-thumbnail mx-auto mb-1">
+        <div class="col-md-2 border mx-auto mb-1">
             <form method="POST">
                 {{ delete_follow }}
                 {% csrf_token %}
@@ -31,7 +31,7 @@
 <p>Abonnés</p>
 {% for follower in followers %}
     {% if request.user == follower.followed_user %}
-    <div class="col-md-12 text-center img-thumbnail mx-auto mb-4">
+    <div class="col-md-12 text-center border mx-auto mb-4">
         <p>{{ follower.user }}</p>
     </div>
     {% endif %}

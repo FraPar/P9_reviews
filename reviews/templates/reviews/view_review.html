@@ -1,14 +1,14 @@
 {% extends 'header_footer.html' %}
 {% block content %}
 <div class="row ">
-    <div class="col-md-11 text-center img-thumbnail mx-auto">
+    <div class="col-md-11 text-center border mx-auto">
         <h3>Ticket : {{ review.ticket.id }}</h3>
         <p>{{ review.ticket.title }} by {{ review.ticket.user }}</p>
         <img src="{{ review.ticket.image.url }}" class="img-fluid ">
         <p>{{ review.ticket.description }}</p>
         <p></p>
 
-        <div class="col-md-11 text-center img-thumbnail mx-auto mb-4">
+        <div class="col-md-11 text-center border mx-auto mb-4">
             <p>{{ review.id }}</p>
             <h3>{{ review.headline }} by {{ review.user }}</h3>
             {% with ''|center:review.rating as Mylist1 %}
@@ -42,9 +42,22 @@
             {% endif %}
             <p>{{ review.rating }}</p>
             <p>{{ review.body }}</p>
+        </div>
+        <div class="row">
             {% if request.user == review.user %}
-            <p><a href="{% url 'edit_review' review.ticket.id review.id %}">Modifier la critique</a></p>
+                <div class="post col-md-4 text-center mx-auto">
+                    <a class="nav-link" href="{% url 'edit_review' review.ticket.id review.id %}">
+                        <button type="button" class="btn btn-block btn-lg btn-outline-warning mb-1">Modifier la critique</button>
+                    </a>
+                </div>            
             {% endif %}
+            <div class="post col-md-4 text-center mx-auto mt-2">
+                <form method="post" action="{% url 'delete_review' review.id %}">
+                    {{ delete_review }}
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-block btn-lg btn-outline-danger mb-1">Supprimer la critique</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>

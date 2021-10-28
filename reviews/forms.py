@@ -1,4 +1,5 @@
 from django import forms
+from django.forms.widgets import TextInput
 
 from . import models
 
@@ -14,6 +15,11 @@ class TicketForm(forms.ModelForm):
     class Meta:
         model = models.Ticket
         fields = ['title', 'description', 'image']
+        widgets = {
+            'title': forms.TextInput(attrs={'class' : "form-control"}),
+            'description': forms.TextInput(attrs={'class' : "form-control"}),
+            'image': forms.TextInput(attrs={'class':'form-control-file', 'type':'file'}),
+        }
 
 
 class DeleteTicketForm(forms.Form):
@@ -27,17 +33,19 @@ class ReviewForm(forms.ModelForm):
         model = models.Review
         fields = ['headline', 'rating', 'body']
         widgets = {
+            'headline': forms.TextInput(attrs={'class' : "form-control"}),
             'rating': forms.RadioSelect(
-        choices=[
-            (0, '0'),
-            (1, '1'),
-            (2, '2'),
-            (3, '3'),
-            (4, '4'),
-            (5, '5'),
-        ],
-        attrs={"required": True}
-    )
+                choices=[
+                    (0, '0'),
+                    (1, '1'),
+                    (2, '2'),
+                    (3, '3'),
+                    (4, '4'),
+                    (5, '5'),
+                ],
+                attrs={"required": True}
+                ),
+            'body': forms.TextInput(attrs={'class' : "form-control"}),
         }
 
 
