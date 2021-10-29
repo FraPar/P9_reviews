@@ -3,11 +3,6 @@ from django.forms.widgets import TextInput
 
 from . import models
 
-""" class PhotoForm(forms.ModelForm):
-    class Meta:
-        model = models.Ticket
-        fields = ['image'] """
-
 
 class TicketForm(forms.ModelForm):
     edit_ticket = forms.BooleanField(widget=forms.HiddenInput, initial=True)

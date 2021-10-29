@@ -6,10 +6,6 @@ from django.core.paginator import Paginator
 from itertools import chain
 from django.template import loader, RequestContext
 
-# from .models import ALBUMS # commentez cette ligne
-
-# Create your views here.
-
 from . import forms, models
 from authentication.models import User
 
@@ -60,7 +56,6 @@ def delete_ticket(request, ticket_id):
 
 @login_required
 def edit_review(request, ticket_id, review_id):
-    # request.user (permet d'acceder a l'instance de l'user et son ID etc...)
     ticket = get_object_or_404(models.Ticket, id=ticket_id)
     review = get_object_or_404(models.Review, id=review_id)
     edit_review = forms.ReviewForm(instance=review)
@@ -93,7 +88,6 @@ def edit_review(request, ticket_id, review_id):
 
 @login_required
 def delete_review(request, review_id):
-    # request.user (permet d'acceder a l'instance de l'user et son ID etc...)
     review = get_object_or_404(models.Review, id=review_id)
     if request.user == review.user:
         if request.method == 'POST':
@@ -165,19 +159,6 @@ def delete_follows(request, follower_id):
     return redirect(view_follows)
 
 @login_required
-def search(request):
-    query = request.GET.get('q')
-    try:
-        query = int(query)
-    except ValueError:
-        query = None
-        results = None
-    if query:
-        results = models.UserFollows.objects.get(uid=query)
-    context = RequestContext(request)
-    return render('view_follows.html', {"results": results,}, context_instance=context)
-
-@login_required
 def review_and_ticket_upload(request):
     review_form = forms.ReviewForm()
     ticket_form = forms.TicketForm()
@@ -245,49 +226,3 @@ def my_posts(request):
 def view_ticket(request, ticket_id):
     ticket = get_object_or_404(models.Ticket, id=ticket_id)
     return render(request, 'reviews/view_ticket.html', {'ticket': ticket})
-
-@login_required
-def index(request):
-    template = loader.get_template('reviews/index.html')
-    return HttpResponse(template.render(request=request))
-
-@login_required
-def listing(request):
-    '''     albums = ["<li>{}</li>".format(album['name']) for album in ALBUMS]
-        message = """<ul>{}</ul>""".format("\n".join(albums)) '''
-    message = "listing"
-    return HttpResponse(message)
-
-@login_required
-def detail(request, album_id):
-    ''' id = int(album_id) # make sure we have an integer.
-    album = ALBUMS[id] # get the album with its id.
-    artists = " ".join([artist['name'] for artist in album['artists']]) # grab artists name and create a string out of it.
-    message = "Le nom de l'album est {}. Il a été écrit par {}".format(album['name'], artists) '''
-    message = "detail"
-    return HttpResponse(message)
-
-@login_required
-def search(request):
-    ''' query = request.GET.get('query')
-    if not query:
-        message = "Aucun artiste n'est demandé"
-    else:
-        albums = [
-            album for album in ALBUMS
-            if query in " ".join(artist['name'] for artist in album['artists'])
-        ]
-
-        if len(albums) == 0:
-            message = "Misère de misère, nous n'avons trouvé aucun résultat !"
-        else:
-            albums = ["<li>{}</li>".format(album['name']) for album in albums]
-            message = """
-                Nous avons trouvé les albums correspondant à votre requête ! Les voici :
-                <ul>
-                    {}
-                </ul>
-            """.format("</li><li>".join(albums))
-    '''
-    message = "search"
-    return HttpResponse(message)
