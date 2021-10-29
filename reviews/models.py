@@ -18,6 +18,9 @@ class Ticket(models.Model):
     time_created = models.DateTimeField(auto_now_add=True)
 
     def resize_image(self):
+        print("self")
+        print(self)
+        print(self.image)
         image = Image.open(self.image)
         image.thumbnail(self.IMAGE_MAX_SIZE)
         # sauvegarde de l’image redimensionnée dans le système de fichiers

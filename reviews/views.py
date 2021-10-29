@@ -35,7 +35,7 @@ def edit_ticket(request, ticket_id):
     edit_ticket = forms.TicketForm(instance=ticket)
     delete_ticket = forms.DeleteTicketForm()
     if request.method == 'POST':
-        edit_ticket = forms.TicketForm(request.POST, instance=ticket)
+        edit_ticket = forms.TicketForm(request.POST, request.FILES, instance=ticket)
         if edit_ticket.is_valid():
             edit_ticket.save()
             return redirect('home')
@@ -184,6 +184,8 @@ def review_and_ticket_upload(request):
     if request.method == 'POST':
         review_form = forms.ReviewForm(request.POST)
         ticket_form = forms.TicketForm(request.POST, request.FILES)
+        print(ticket_form)
+        print(request.FILES)
         if all([review_form.is_valid(), ticket_form.is_valid()]):
             ticket = ticket_form.save(commit=False)
             ticket.user = request.user

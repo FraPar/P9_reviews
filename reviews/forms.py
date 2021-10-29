@@ -18,7 +18,6 @@ class TicketForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'class' : "form-control"}),
             'description': forms.TextInput(attrs={'class' : "form-control"}),
-            'image': forms.TextInput(attrs={'class':'form-control-file', 'type':'file'}),
         }
 
 
