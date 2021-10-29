@@ -184,11 +184,29 @@ def review_and_ticket_upload(request):
 
 @login_required
 def home(request):
-    tickets = models.Ticket.objects.all()
-    reviews = models.Review.objects.all()
-    
+    follow = models.UserFollows.objects.filter(user=request.user.id)
+    followers = []
+    all_tickets = []
+    all_reviews = []
+    all_reviews_from_user = []
+    followers.append(request.user)
+    for follower in follow:
+        followers.append(follower.followed_user)
+    for user_data in followers:
+        reviews_from_user = models.Review.objects.filter(ticket__user=user_data)
+        print(reviews_from_user)
+        reviews = models.Review.objects.filter(user=user_data)
+        tickets = models.Ticket.objects.filter(user=user_data)
+        if tickets.exists():
+            all_tickets = chain(all_tickets, tickets)
+        if reviews.exists():
+            all_reviews = chain(all_reviews, reviews)
+        if reviews_from_user.exists():
+            all_reviews_from_user = chain(all_reviews_from_user, reviews_from_user)
+
+
     tickets_and_reviews = sorted(
-        chain(tickets, reviews),
+        chain(all_tickets, all_reviews, all_reviews_from_user),
         key=lambda instance: instance.time_created,
         reverse=True
     )
