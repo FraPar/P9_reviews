@@ -55,7 +55,7 @@ def delete_ticket(request, ticket_id):
     ticket = get_object_or_404(models.Ticket, id=ticket_id)
     if request.method == 'POST':
         ticket.delete()
-    return redirect('home')
+    return redirect('my_posts')
 
 
 @login_required
@@ -98,7 +98,7 @@ def delete_review(request, review_id):
     if request.user == review.user:
         if request.method == 'POST':
             review.delete()
-    return redirect('home')
+    return redirect('my_posts')
 
 
 @login_required

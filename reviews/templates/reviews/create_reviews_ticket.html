@@ -4,17 +4,18 @@
 
 <form action="" method="POST" enctype="multipart/form-data">
     <div class="row ">
-        <div class="col-md-8 text-center border mx-auto mb-4">
-            <h2>Créer une critique</h2>
+        <div class="col-md-8 text-center border mx-auto pt-4 mb-4">
+            <div class="pb-4">
+                <h2>Créer une critique</h2>
                 {{ ticket_form.as_p }}
+            </div>
+            <div class="border-top pt-4">
+                    {{ review_form.as_p }}
+                    {% csrf_token %}
+                    <button type="submit" class="col-4 btn btn-block btn-lg btn-success mx-auto mb-4">Envoyer</button>
+            </div>
         </div>
-    </div> 
-    <div class="row ">
-        <div class="col-md-8 text-center border mx-auto mb-4">
-                {{ review_form.as_p }}
-                {% csrf_token %}
-                <button type="submit" class="col-4 btn btn-block btn-lg btn-success mx-auto mb-4">Envoyer</button>
-        </div>
+
     </div>
 </form>
 

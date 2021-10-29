@@ -7,9 +7,9 @@
     <form method="post">
         {{ form.as_p }}
         {% csrf_token %}
-        <button type="submit" >S’inscrire</button>
+        <button type="submit" class="col-4 btn btn-block btn-lg btn-success mx-auto my-4">S’inscrire</button>
     </form>
     <form action="/">
-        <input type="submit" value="Retour" />
+        <input type="submit" class="col-4 btn btn-block btn-lg btn-danger mx-auto my-4" value="Retour" />
     </form>
 {% endblock content %}

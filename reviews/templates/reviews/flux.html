@@ -1,13 +1,16 @@
 {% extends 'header_footer.html' %}
 {% block content %}
 
-    <h2>Vos posts</h2>
+    <div class="row text-center mx-auto" style="width: 150px;">
+        <h2>Vos posts</h2>
+    </div>
+
     <div class="grid-container">
     {% for obj in page_obj %}
         {% if obj.title %}
-        <div class="post col-md-11 text-center border mx-auto mb-4">
+        <div class="post col-md-11 text-center border shadow-sm mx-auto my-4">
             <a href="{% url 'view_ticket' obj.id %}">
-                <div class="row">
+                <div class="row mt-2">
                     <div class="col-md-6">
                     {% if request.user == obj.user %}
                         <p>Vous avez demandé cette critique</p>
@@ -20,8 +23,8 @@
                     </div>
                 </div>
                 <h3>Ticket : {{ obj.title }}</h3>
-                <img src="{{ obj.image.url }}" class="img-fluid shadow-lg bg-white rounded">
                 <p>{{ obj.description }}</p>
+                <img src="{{ obj.image.url }}" class="img-fluid shadow-lg bg-white rounded mb-4">
                 <div class="row">
                     {% if obj.review_set.all.count == 0 %}
                         <div class="post col-md-4 text-center mx-auto mb-4">
@@ -51,8 +54,8 @@
         {% if obj.ticket %}
 
         <a href="{% url 'view_review' obj.ticket.id obj.id %}">
-        <div class="post col-md-11 text-center border mx-auto mb-4">
-            <div class="row">
+        <div class="post col-md-11 text-center border shadow-sm mx-auto mt-4 mb-8">
+            <div class="row mt-2">
                 <div class="col-md-6">
                     {% if request.user == obj.user %}
                         <p>Vous avez publié cette critique</p>
@@ -96,7 +99,7 @@
             {% endif %}
             <p>{{ obj.body }}</p>
        
-            <div class="post col-md-11 text-center border mx-auto px-4 py-4">
+            <div class="post col-md-11 text-center border shadow-sm mx-auto px-4 py-4">
                     <h3>Ticket - {% if request.user == obj.ticket.user %} Vous {% else %} {{ obj.ticket.user }} {% endif %}</h3>
                     <p>{{ obj.ticket.title }}</p>
                     <p>{{ obj.ticket.description }}</p>
@@ -104,7 +107,7 @@
             </div>
             </a>
             
-            <div class="row">
+            <div class="row my-4">
                 {% if request.user == obj.user %}
                     <div class="post col-md-4 text-center mx-auto">
                         <a class="nav-link" href="{% url 'edit_review' obj.ticket.id obj.id %}">

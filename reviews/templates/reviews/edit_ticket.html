@@ -1,17 +1,21 @@
 {% extends 'header_footer.html' %}
 
 {% block content %}
+<div class="post col-md-11 text-center border mx-auto mb-4 pt-3">
     <h2>Modifier le ticket</h2>
     <form action="" method="POST" enctype="multipart/form-data">
         {{ edit_ticket.as_p }}
         {% csrf_token %}
-        <button type="submit" class="col-4 btn btn-block btn-lg btn-success mx-auto mb-4">Sauvegarder</button>
+        <button type="submit" class="col-4 btn btn-block btn-lg btn-success mx-auto my-4">Sauvegarder</button>
     </form>
     <hr>
-    <h3>Supprimer le ticket ?</h3>
+    <div class="row text-center mx-auto my-4" style="width: 275px;">
+        <h3>Supprimer le ticket ?</h3>
+    </div>
     <form method="post">
         {{ delete_ticket }}
         {% csrf_token %}
         <button type="submit" class="col-4 btn btn-block btn-lg btn-danger mx-auto mb-4">Supprimer</button>
     </form>
+</div>
 {% endblock content %}

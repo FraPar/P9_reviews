@@ -4,12 +4,12 @@
     <div class="row text-center">
         <div class="col">  
             <a class="nav-link" href="/reviews/ticket_create">
-                <button type="button" class="btn btn-block btn-lg btn-outline-warning mb-4">Demander une critique</button>
+                <button type="button" class="btn btn-block btn-lg btn-outline-warning">Demander une critique</button>
             </a>
         </div>
         <div class="col">
             <a class="nav-link" href="/reviews/ticket_and_review_create">
-                <button type="button" class="btn btn-block btn-lg btn-outline-success mb-4">Créer une critique</button>
+                <button type="button" class="btn btn-block btn-lg btn-outline-success">Créer une critique</button>
             </a>
         </div>
     </div>
@@ -17,9 +17,9 @@
     <div class="grid-container">
     {% for obj in page_obj %}
         {% if obj.title %}
-        <div class="post col-md-11 text-center border mx-auto mb-4">
+        <div class="post col-md-11 text-center border shadow-sm mx-auto my-4">
             <a href="{% url 'view_ticket' obj.id %}">
-                <div class="row">
+                <div class="row mt-2">
                     <div class="col-md-6">
                         {% if request.user == obj.user %}
                             <p>Vous avez demandé cette critique</p>
@@ -32,11 +32,11 @@
                     </div>
                 </div>
                 <h3>Ticket : {{ obj.title }}</h3>
-                <img src="{{ obj.image.url }}" class="img-fluid shadow-lg bg-white rounded">
                 <p>{{ obj.description }}</p>
+                <img src="{{ obj.image.url }}" class="img-fluid shadow-lg bg-white rounded mb-4">
                     {% if obj.review_set.all.count == 0 %}
-                    <div class="row">
-                        <div class="post col-md-4 text-center mx-auto mb-4">
+                    <div class="row justify-content-end mb-4">
+                        <div class="post col-md-4 text-center">
                             <a class="nav-link" href="{% url 'review_create' obj.id %}">
                                         <button type="button" class="btn btn-block btn-lg btn-outline-success mb-1">Créer une critique</button>
                             </a> 
@@ -50,9 +50,9 @@
         {% if obj.ticket %}
 
         <a href="{% url 'view_review' obj.ticket.id obj.id %}">
-        <div class="post col-md-11 text-center border mx-auto mb-4">
+        <div class="post col-md-11 text-center border shadow-sm mx-auto mt-4 mb-8">
         
-            <div class="row">
+            <div class="row mt-2">
                 <div class="col-md-6">
                     {% if request.user == obj.user %}
                         <p>Vous avez publié cette critique</p>
@@ -96,7 +96,7 @@
             {% endif %}
             <p>{{ obj.body }}</p>
         
-            <div class="post col-md-11 text-center border mx-auto px-4 py-4">
+            <div class="post col-md-11 text-center border shadow-sm mx-auto px-4 py-4 mb-4">
                     <h3>Ticket - {% if request.user == obj.ticket.user %} Vous {% else %} {{ obj.ticket.user }} {% endif %}</h3>
                     <p>{{ obj.ticket.title }}</p>
                     <p>{{ obj.ticket.description }}</p>

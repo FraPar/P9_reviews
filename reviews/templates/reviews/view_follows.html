@@ -1,26 +1,33 @@
 {% extends 'header_footer.html' %}
 {% block content %}
 
-<form form class="form-inline" action="/add_follow/" method="POST">
-    {% csrf_token %}
-    <label for="follow_user">Suivre d'autres utilisateurs: </label>
-    <input class="form-control" id="follow_user" type="text" name="follow_user" placeholder="Nom d'utilisateur">
-    <input class="btn btn-primary" type="submit" value="Envoyer">
-</form>
+<div class="row text-center mx-auto" style="width: 250px;">
+    <h5>Suivre d'autres utilisateurs: </h5>
+</div>
+<div class="row text-center mx-auto mt-2 pb-2" style="width: 400px;">
+    <form form class="form-inline" action="/add_follow/" method="POST">
+        {% csrf_token %}
+        <input class="form-control text-center mx-4" id="follow_user" type="text" name="follow_user" placeholder="Nom d'utilisateur">
+        <input class="btn btn-primary" type="submit" value="Envoyer">
+    </form>
+</div>
 
-<p>Abonnements</p>
-<div class="grid-container">
+<div class="row text-center mx-auto mt-4" style="width: 130px;">
+    <h5>Abonnements</h5>
+</div>
+
+<div class="container">
 {% for follower in followers %}
     {% if request.user == follower.user %}
-    <div class="row text-center">
-        <div class="col-md-10 border mx-auto mb-1">
-        <p>{{ follower.followed_user }}</p>
+    <div class="row text-center mb-4">
+        <div class="col border ml-4 pl-5 pt-3">
+            <p>{{ follower.followed_user }}</p>
         </div>
-        <div class="col-md-2 border mx-auto mb-1">
+        <div class="col-md-auto border pt-2">
             <form method="POST">
                 {{ delete_follow }}
                 {% csrf_token %}
-                <a href="{% url 'delete_follows' follower.id  %}">Désabonner</a>
+                <a href="{% url 'delete_follows' follower.id  %}"><i class="fas fa-user-minus fa-2x" style="color: #f71111;"></i></a>
             </form>
         </div>
     </div>
@@ -28,10 +35,12 @@
 {% endfor %}
 </div>
 
-<p>Abonnés</p>
+<div class="row text-center mx-auto mt-5" style="width: 80px;">
+    <h5>Abonnés</h5>
+</div>
 {% for follower in followers %}
     {% if request.user == follower.followed_user %}
-    <div class="col-md-12 text-center border mx-auto mb-4">
+    <div class="col-md-11 text-center border mx-auto mb-4 pt-3">
         <p>{{ follower.user }}</p>
     </div>
     {% endif %}

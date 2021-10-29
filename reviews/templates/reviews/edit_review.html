@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="row ">
-    <div class="col-md-11 text-center border mx-auto">
+    <div class="col-md-11 text-center border shadow-sm mx-auto pt-2">
         <h3>Ticket : {{ ticket.id }}</h3>
         <p>{{ ticket.title }} by {{ ticket.user }}</p>
         <img src="{{ ticket.image.url }}" class="img-fluid ">
@@ -12,19 +12,21 @@
     </div>
 </div>
 
-<div class="col-md-11 text-center border mx-auto">
-    <h2>Modifier la review</h2>
-    <form action="" method="POST" enctype="multipart/form-data">
-        {{ edit_review.as_p }}
-        {% csrf_token %}
-        <button type="submit" class="col-4 btn btn-block btn-lg btn-success mx-auto mb-4">Sauvegarder</button>
-    </form>
-    <hr>
-    <h3>Supprimer le review ?</h3>
-    <form method="post">
-        {{ delete_review }}
-        {% csrf_token %}
-        <button type="submit" class="col-4 btn btn-block btn-lg btn-danger mx-auto mb-4">Supprimer</button>
-    </form>
+<div class="row ">
+    <div class="col-md-11 text-center border mx-auto py-4 mb-4">
+        <h2>Modifier la review</h2>
+        <form action="" method="POST" enctype="multipart/form-data">
+            {{ edit_review.as_p }}
+            {% csrf_token %}
+            <button type="submit" class="col-4 btn btn-block btn-lg btn-success mx-auto mb-4">Sauvegarder</button>
+        </form>
+        <hr>
+        <h3>Supprimer le review ?</h3>
+        <form method="post">
+            {{ delete_review }}
+            {% csrf_token %}
+            <button type="submit" class="col-4 btn btn-block btn-lg btn-danger mx-auto mb-8">Supprimer</button>
+        </form>
+    </div>
 </div>
 {% endblock content %}

@@ -8,14 +8,19 @@
             <form method="post">
                 {{ form.as_p }}
                 {% csrf_token %}
-                <button type="submit" >Se connecter</button>
+                <button type="submit" class="col-4 btn btn-block btn-lg btn-success mx-auto my-4">Se connecter</button>
             </form>
           </div>
         </div>
 
         <div class="col-12 col-lg-6 text-center">
             <div class="card shadow">
-                <p>Pas encore membre ? <a href="{% url 'signup' %}">Inscrivez-vous maintenant !</a></p>
+                <div class="row text-center mx-auto mt-4" style="width: 240px;">
+                    <h5>Inscrivez-vous maintenant</h5>
+                </div>
+                <a href="{% url 'signup' %}">
+                    <button type="submit" class="col-4 btn btn-block btn-lg btn-warning mx-auto my-4">S’inscrire</button>
+                </a>
             </div>
         </div>
     </div>
