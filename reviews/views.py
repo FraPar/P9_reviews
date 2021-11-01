@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from django.core.paginator import Paginator
 from itertools import chain
 from django.template import loader, RequestContext
+from collections import OrderedDict
 
 from . import forms, models
 from authentication.models import User
@@ -62,14 +63,12 @@ def edit_review(request, ticket_id, review_id):
     delete_review = forms.DeleteReviewForm()
     if request.user == review.user:
         if request.method == 'POST':
-            print(request.POST)
             edit_review = forms.ReviewForm(request.POST, instance=review)
             if edit_review.is_valid():
                 edit_review.save()
                 return redirect('home')
             if 'delete_review' in request.POST:
                 delete_review = forms.DeleteReviewForm(request.POST)
-                print(delete_review)
                 if delete_review.is_valid():
                     review.delete()
                     return redirect('home')
@@ -135,10 +134,6 @@ def view_follows(request):
 
 @login_required
 def add_follow(request):
-    users = User.objects.all()
-    follow = models.UserFollows.objects.filter(user=request.user.id)
-    print(users)
-    print(follow)
     if request.method == 'POST':
         try:
             form = request.POST
@@ -165,8 +160,6 @@ def review_and_ticket_upload(request):
     if request.method == 'POST':
         review_form = forms.ReviewForm(request.POST)
         ticket_form = forms.TicketForm(request.POST, request.FILES)
-        print(ticket_form)
-        print(request.FILES)
         if all([review_form.is_valid(), ticket_form.is_valid()]):
             ticket = ticket_form.save(commit=False)
             ticket.user = request.user
@@ -194,7 +187,6 @@ def home(request):
         followers.append(follower.followed_user)
     for user_data in followers:
         reviews_from_user = models.Review.objects.filter(ticket__user=user_data)
-        print(reviews_from_user)
         reviews = models.Review.objects.filter(user=user_data)
         tickets = models.Ticket.objects.filter(user=user_data)
         if tickets.exists():
@@ -204,12 +196,17 @@ def home(request):
         if reviews_from_user.exists():
             all_reviews_from_user = chain(all_reviews_from_user, reviews_from_user)
 
-
     tickets_and_reviews = sorted(
         chain(all_tickets, all_reviews, all_reviews_from_user),
         key=lambda instance: instance.time_created,
         reverse=True
     )
+
+    no_doublons = OrderedDict((x, True) for x in tickets_and_reviews).keys()
+    tickets_and_reviews.clear()
+    for item in no_doublons:
+        tickets_and_reviews.append(item)
+
     paginator = Paginator(tickets_and_reviews, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
